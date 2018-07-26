@@ -6,42 +6,42 @@ require 'byebug'
 def topological_sort(vertices)
     # Khan's
 
-    queue = []
-    list = []
+    # queue = []
+    # list = []
 
-    vertices.each do |vertex|
-        if vertex.in_edges.empty? 
-            queue.push(vertex)
-        end
-    end
+    # vertices.each do |vertex|
+    #     if vertex.in_edges.empty? 
+    #         queue.push(vertex)
+    #     end
+    # end
 
-    return [] if queue.empty?
+    # return [] if queue.empty?
 
-    until queue.empty?
-        delete = []
-        vertex = queue.shift
-        list.push(vertex)
+    # until queue.empty?
+    #     delete = []
+    #     vertex = queue.shift
+    #     list.push(vertex)
 
-        vertex.out_edges.each do |edge|
-            to_vert = edge.to_vertex
+    #     vertex.out_edges.each do |edge|
+    #         to_vert = edge.to_vertex
             
-            if to_vert.in_edges.length == 1
-                queue.push(edge.to_vertex)
-            end
+    #         if to_vert.in_edges.length == 1
+    #             queue.push(edge.to_vertex)
+    #         end
             
-            delete.push(edge)
-        end
+    #         delete.push(edge)
+    #     end
 
-        vertices.delete(vertex)
+    #     vertices.delete(vertex)
 
-        delete.each do |edge|
-            edge.destroy!
-        end
-    end
+    #     delete.each do |edge|
+    #         edge.destroy!
+    #     end
+    # end
 
-    return [] if vertices.length > 0
+    # return [] if vertices.length > 0
 
-    return list
+    # return list
 
     # Tarian's
     # if vertices.length <= 1
@@ -73,4 +73,28 @@ def topological_sort(vertices)
 
     # p vertices,leafs
     # return topological_sort(vertices) + leafs
+
+
+    leaves = []
+    left_over = []
+
+    vertices.each do |v|
+        if v.out_edges.empty?
+            leaves.unshift(v)
+        else 
+            left_over.push(v)
+        end 
+    end 
+
+    unless leaves.empty? 
+        leaves.each do |leaf|
+            leaf.in_edges.each do |edge|
+                edge.destroy!
+            end 
+        end
+    end
+
+    return [] if leaves.empty? 
+    # return leaves if left_over.empty?
+    return topological_sort(left_over) + leaves
 end

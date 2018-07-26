@@ -30,10 +30,9 @@ end
 
 
 # calculates all the combinations of lengths for each character in the patter
-def num_patterns(input, num, count = 0)
+def num_patterns(input, num)
     # if input is "bb", we want to return, but we also need to keep track of how many b's are in the pattern.
-    count += 1
-    p count
+
     uniques = input.split("").uniq
     return [[num / input.length]] if uniques.length == 1
     
@@ -49,11 +48,12 @@ def num_patterns(input, num, count = 0)
 
     # get the results from all the other characters recursively
     (1..max_length / num_char).each do |leng|
-        next_pattern = num_patterns(next_string, num - leng * num_char, count)
+        next_pattern = num_patterns(next_string, num - leng * num_char)
         next_pattern.each do |arr|
             solution.push([leng] + arr)
         end
     end
     
+    p solution
     return solution
 end
