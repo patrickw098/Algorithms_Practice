@@ -29,7 +29,7 @@ def  wordpattern( pattern,  input)
 end
 
 
-# calculates all the combinations of lengths for each character in the patter
+# calculates all the combinations of lengths for each character in the pattern
 def num_patterns(input, num)
     # if input is "bb", we want to return, but we also need to keep track of how many b's are in the pattern.
 
