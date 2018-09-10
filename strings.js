@@ -30,4 +30,4 @@ function formatStrings(str) {
     return ans.join("-")
 } 
 
-console.log(formatStrings("1234"));
+console.log(formatStrings("6257"));
