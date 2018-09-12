@@ -43,18 +43,10 @@ class DynamicProgramming
       (4..n).each do |num|
         steps = []
 
-        (1..num - 1).each do |step_num|
-          first_half = cache[step_num]
-          first_half = first_half[step_num - 1..-1]
-          second_half = cache[num - step_num]
-          # second_half = second_half[0..num - step_num]
-
-       
-
-          first_half.each do |pattern|
-            second_half.each do |second_pattern|
-              steps.push(pattern + second_pattern)
-            end
+        (1 .. 3).each do |step|
+          first_half = cache[num - step]
+          first_half.each do |first_el|
+            steps.push(first_el + [step])
           end
         end
 
@@ -79,13 +71,11 @@ class DynamicProgramming
 
     (1..3).each do |jump|
       break if jump > n 
-      one_step = frog_hops_top_down_helper(jump)[-1]
       remaining = frog_hops_top_down(n - jump)
 
-      [one_step].each do |solution|
-        remaining.each do |remaining_solution|
-          final_solution.push(solution + remaining_solution)
-        end
+      
+      remaining.each do |remaining_solution|
+        final_solution.push([jump] + remaining_solution)
       end
     end
 
@@ -101,14 +91,10 @@ class DynamicProgramming
       (1..k).each do |jump|
         break if jump > n
 
-        one_step = jump == n ? [n] : super_frog_hops(jump, k)[-1]
         next_step = super_frog_hops(n - jump, k)
-        
-        [one_step].each do |single_step|
-          next_step.each do |prev_step|
-            solution.push(single_step + prev_step)
-          end
-        end 
+        next_step.each do |prev_step|
+           solution.push([jump] + prev_step)
+        end
       end
 
     return solution
