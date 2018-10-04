@@ -11,12 +11,25 @@ node2 = new Node({ left: null, right: null, val: 2 })
 node1 = new Node({ left: node0, right: node2, val: 1 })
 node4 = new Node({ left: null, right: null, val: 4 })
 node6 = new Node({ left: null, right: null, val: 6 })
-node5 = new Node({ left: node4, right: node6, val: 5 })
+node5 = new Node({ left: node4, right: null, val: 5 })
 node3 = new Node({ left: node1, right: node5, val: 3 })
 
 function bst(node) {
     if ( node.right === null || node.left === null) {
-        return [node];
+        console.log(node.right);
+        if ( node.right || node.left ) {
+            if ( node.right  ) {
+                node.left = node.right;
+                node.right.left = node
+                return [node, node.right];
+            } else {
+                node.right = node.left;
+                node.left.right = node;
+                return [node.left, node];
+            }
+        } else {
+            return [node];
+        }
     }
 
     let left = bst(node.left);
@@ -37,6 +50,25 @@ function bst(node) {
     
     return [leftFirst, rightLast];
 }
+
+let node = bst(node3);
+console.log(node);
+node = node[0];
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+console.log(node.val);
+node = node.right;
+
 
 // function bst_to_ll(node, stack = []){
 //     if ( node.right === null ) {
